@@ -1,15 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Home from "./components/Home";
+import About from "./components/About";
 import "./App.css";
-function About() {
-  return (
-    <div className="page">
-      <h2>About Page</h2>
-      <p>Learn more about us on this page.</p>
-    </div>
-  );
-}
 
 function Services() {
   return (
