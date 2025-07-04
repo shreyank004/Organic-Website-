@@ -2,16 +2,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header";
 import Home from "./components/Home";
 import About from "./components/About";
+import Services from "./components/Services";
 import "./App.css";
-
-function Services() {
-  return (
-    <div className="page">
-      <h2>Services Page</h2>
-      <p>Check out our services here.</p>
-    </div>
-  );
-}
 
 function Contact() {
   return (
