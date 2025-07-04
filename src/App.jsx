@@ -1,17 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Header from "./Header";
+import Home from "./components/Home";
 import "./App.css";
-
-// Simple page components
-function Home() {
-  return (
-    <div className="page">
-      <h2>Home Page</h2>
-      <p>Welcome to the home page!</p>
-    </div>
-  );
-}
-
 function About() {
   return (
     <div className="page">

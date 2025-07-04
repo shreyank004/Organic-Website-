@@ -1,4 +1,6 @@
-function Home() {
+import "./Home.css";
+
+export default function Home() {
   return (
     <div className="home-page">
       <section className="hero">
