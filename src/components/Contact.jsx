@@ -38,33 +38,32 @@ export default function Contact() {
   const validateForm = () => {
     const newErrors = {};
 
-    // Name validation
+
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     } else if (formData.name.trim().length < 2) {
       newErrors.name = "Name must be at least 2 characters";
     }
 
-    // Email validation
+ 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    // Phone validation (optional but if provided, should be valid)
     if (formData.phone.trim() && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ""))) {
       newErrors.phone = "Please enter a valid phone number";
     }
 
-    // Subject validation
+
     if (!formData.subject.trim()) {
       newErrors.subject = "Subject is required";
     } else if (formData.subject.trim().length < 3) {
       newErrors.subject = "Subject must be at least 3 characters";
     }
 
-    // Message validation
+
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
     } else if (formData.message.trim().length < 10) {
@@ -82,7 +81,7 @@ export default function Contact() {
       [name]: value
     }));
 
-    // Clear error for this field when user starts typing
+  
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -101,13 +100,13 @@ export default function Contact() {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call
+
       await new Promise(resolve => setTimeout(resolve, 2000));
       
       console.log("Form submitted successfully:", formData);
       setSubmitSuccess(true);
       
-      // Reset form
+     
       setFormData({
         name: "",
         email: "",
@@ -116,7 +115,7 @@ export default function Contact() {
         message: ""
       });
       
-      // Hide success message after 5 seconds
+      
       setTimeout(() => setSubmitSuccess(false), 5000);
       
     } catch (error) {
