@@ -1,0 +1,111 @@
+const validateForm = () => {
+    const newErrors = {};
+
+    if (!formData.name.trim()) {
+      newErrors.name = "Name is required";
+    } else if (formData.name.trim().length < 2) {
+      newErrors.name = "Name must be at least 2 characters";
+    }
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+
+    if (
+      formData.phone.trim() &&
+      !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ""))
+    ) {
+      newErrors.phone = "Please enter a valid phone number";
+    }
+
+    if (!formData.subject.trim()) {
+      newErrors.subject = "Subject is required";
+    } else if (formData.subject.trim().length < 3) {
+      newErrors.subject = "Subject must be at least 3 characters";
+    }
+
+    if (!formData.message.trim()) {
+      newErrors.message = "Message is required";
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: "",
+      }));
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Send data to Zapier webhook
+      const zapierWebhookUrl = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
+
+      if (zapierWebhookUrl) {
+        const response = await fetch(zapierWebhookUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || "",
+            subject: formData.subject,
+            message: formData.message,
+            timestamp: new Date().toISOString(),
+            source: "Contact Form",
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Zapier webhook failed: ${response.status}`);
+        }
+
+        console.log("Data successfully sent to Zapier");
+      } else {
+        console.warn("No Zapier webhook URL configured");
+      }
+
+      console.log("Form submitted successfully:", formData);
+      setSubmitSuccess(true);
+
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+
+      setTimeout(() => setSubmitSuccess(false), 5000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setErrors({ submit: "Failed to send message. Please try again." });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };

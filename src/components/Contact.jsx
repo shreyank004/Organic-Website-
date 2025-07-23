@@ -99,22 +99,22 @@ export default function Contact() {
 
     try {
       // Send data to Zapier webhook
-      const zapierWebhookUrl = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
-
+      const zapierWebhookUrl = 'https://hooks.zapier.com/hooks/catch/2299769/uutar0l/';
+      console.log("Zapier Webhook URL:", zapierWebhookUrl);
       if (zapierWebhookUrl) {
         const response = await fetch(zapierWebhookUrl, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             name: formData.name,
             email: formData.email,
-            phone: formData.phone || '',
+            phone: formData.phone || "",
             subject: formData.subject,
             message: formData.message,
             timestamp: new Date().toISOString(),
-            source: 'Contact Form'
+            source: "Contact Form",
           }),
         });
 
