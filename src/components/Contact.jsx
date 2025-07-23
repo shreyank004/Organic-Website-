@@ -1,6 +1,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
+
 import "./Contact.css";
 
 export default function Contact() {
@@ -359,6 +360,8 @@ export default function Contact() {
           </div>
         </div>
       </motion.section>
+      
+
     </div>
   );
 }

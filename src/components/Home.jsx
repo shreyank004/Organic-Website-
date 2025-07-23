@@ -1,19 +1,30 @@
 import "./Home.css";
-
+import Chatbot from "./Chatbot";
+import { FadeIn, SlideIn, ScaleIn } from 'react-bits';
 export default function Home() {
   return (
     <div className="home-page">
       <section className="hero">
         <div className="hero-content">
           <h1>Welcome to My App</h1>
+          <FadeIn>
+            <div>This will fade in</div>
+          </FadeIn>
+          <SlideIn direction="left">
+            <div>This will slide in from the left</div>
+          </SlideIn>
+          <ScaleIn>
+            <div>This will scale in</div>
+          </ScaleIn>
           <p className="hero-subtitle">Build amazing things with React and modern web technologies</p>
           <div className="hero-buttons">
             <button className="btn btn-primary">Get Started</button>
             <button className="btn btn-secondary">Learn More</button>
           </div>
         </div>
-      </section>
 
+      </section>
+      <Chatbot />
       <section className="features">
         <div className="container">
           <h2>Features</h2>
@@ -44,6 +55,9 @@ export default function Home() {
           <button className="btn btn-primary">Start Building</button>
         </div>
       </section>
+
     </div>
+    
   );
+  
 }

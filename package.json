@@ -24,6 +24,7 @@
     "framer-motion": "^12.23.0",
     "gsap": "^3.13.0",
     "ogl": "^1.0.11",
+    "react-bits": "^1.0.5",
     "react-router-dom": "^7.6.3"
   }
 }
