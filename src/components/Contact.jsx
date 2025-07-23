@@ -1,7 +1,7 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-
+import Chatbot from "./Chatbot";
 import "./Contact.css";
 
 export default function Contact() {
@@ -361,7 +361,7 @@ export default function Contact() {
         </div>
       </motion.section>
       
-
+      <Chatbot />
     </div>
   );
 }

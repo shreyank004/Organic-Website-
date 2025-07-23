@@ -16,6 +16,13 @@ export default function Chatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
+  const quickActions = [
+    "How can I help you?",
+    "Tell me about your services",
+    "Contact information",
+    "Pricing details"
+  ];
+
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -24,16 +31,54 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  const botResponses = [
-    "That's a great question! Let me help you with that.",
-    "I understand what you're looking for. Here's what I can suggest...",
-    "Thanks for asking! I'd be happy to assist you.",
-    "That's an interesting point. Let me provide some information about that.",
-    "I'm here to help! Based on what you've shared, I recommend...",
-    "Great question! Here's what you need to know...",
-    "I can definitely help you with that. Let me explain...",
-    "Thanks for reaching out! Here's my suggestion..."
-  ];
+  // AI API Integration
+  const generateBotResponse = async (userMessage) => {
+    try {
+      // Option 1: OpenAI-compatible API (you can replace with your preferred API)
+      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${process.env.OPENAI_API_KEY || 'your-api-key-here'}`
+        },
+        body: JSON.stringify({
+          model: 'gpt-3.5-turbo',
+          messages: [
+            {
+              role: 'system',
+              content: 'You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words.'
+            },
+            {
+              role: 'user',
+              content: userMessage
+            }
+          ],
+          max_tokens: 150,
+          temperature: 0.7
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.choices[0].message.content;
+
+    } catch (error) {
+      console.error('API Error:', error);
+      
+      // Fallback to local responses if API fails
+      const fallbackResponses = [
+        "I apologize, but I'm having trouble connecting to my knowledge base right now. Could you try asking your question again?",
+        "I'm experiencing some technical difficulties. In the meantime, you can reach out to our support team directly.",
+        "Sorry, I'm having connectivity issues. Please try your question again or contact our support team for immediate assistance.",
+        "I'm unable to process your request at the moment. Our team is here to help - please don't hesitate to reach out directly."
+      ];
+      
+      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    }
+  };
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -47,26 +92,44 @@ export default function Chatbot() {
     };
 
     setMessages(prev => [...prev, userMessage]);
+    const currentInput = inputMessage;
     setInputMessage("");
     setIsTyping(true);
 
-    // Simulate bot typing delay
-    setTimeout(() => {
-      const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+    try {
+      // Generate response using AI API
+      const botResponseText = await generateBotResponse(currentInput);
+      
       const botMessage = {
         id: Date.now() + 1,
-        text: randomResponse,
+        text: botResponseText,
         isBot: true,
         timestamp: new Date()
       };
 
       setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      console.error('Error generating response:', error);
+      
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: "I apologize, but I'm having trouble responding right now. Please try again or contact our support team.",
+        isBot: true,
+        timestamp: new Date()
+      };
+
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsTyping(false);
-    }, 1000 + Math.random() * 2000);
+    }
   };
 
   const toggleChatbot = () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleQuickAction = (action) => {
+    setInputMessage(action);
   };
 
   const containerVariants = {
@@ -174,6 +237,19 @@ export default function Chatbot() {
                 </motion.div>
               )}
               <div ref={messagesEndRef} />
+            </div>
+
+            <div className="quick-actions">
+              {quickActions.map((action, index) => (
+                <button
+                  key={index}
+                  onClick={() => handleQuickAction(action)}
+                  className="quick-action-btn"
+                  disabled={isTyping}
+                >
+                  {action}
+                </button>
+              ))}
             </div>
 
             <form className="chatbot-input-form" onSubmit={handleSendMessage}>
