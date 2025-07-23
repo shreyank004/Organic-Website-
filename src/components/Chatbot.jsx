@@ -7,7 +7,7 @@ export default function Chatbot() {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hi! I'm your assistant. How can I help you today?",
+      text: "Hi! How can I help you today?",
       isBot: true,
       timestamp: new Date(),
     },
@@ -16,12 +16,7 @@ export default function Chatbot() {
   const [isTyping, setIsTyping] = useState(false);
   const messagesEndRef = useRef(null);
 
-  const quickActions = [
-    "👋 Hello",
-    "🚀 Services",
-    "📞 Contact",
-    "💰 Pricing",
-  ];
+  const quickActions = ["Hello", "Services", "Contact", "Pricing"];
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -65,17 +60,14 @@ export default function Chatbot() {
     } catch (error) {
       console.error("API Error:", error);
 
-      // Fallback to local responses if API fails
       const fallbackResponses = [
-        "I apologize, but I'm having trouble connecting to my knowledge base right now. Could you try asking your question again?",
-        "I'm experiencing some technical difficulties. In the meantime, you can reach out to our support team directly.",
-        "Sorry, I'm having connectivity issues. Please try your question again or contact our support team for immediate assistance.",
-        "I'm unable to process your request at the moment. Our team is here to help - please don't hesitate to reach out directly.",
+        "Thanks for your message! I'm here to help you.",
+        "I'd be happy to assist you with your inquiry.",
+        "Let me help you with that. What specific information do you need?",
+        "I'm here to support you. How can I make your experience better?",
       ];
 
-      return fallbackResponses[
-        Math.floor(Math.random() * fallbackResponses.length)
-      ];
+      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }
   };
 
@@ -96,7 +88,6 @@ export default function Chatbot() {
     setIsTyping(true);
 
     try {
-      // Generate response using AI API
       const botResponseText = await generateBotResponse(currentInput);
 
       const botMessage = {
@@ -112,7 +103,7 @@ export default function Chatbot() {
 
       const errorMessage = {
         id: Date.now() + 1,
-        text: "I apologize, but I'm having trouble responding right now. Please try again or contact our support team.",
+        text: "I'm having trouble responding right now. Please try again or contact our support team.",
         isBot: true,
         timestamp: new Date(),
       };
@@ -187,7 +178,7 @@ export default function Chatbot() {
             <div className="chatbot-header">
               <div className="chatbot-avatar">🤖</div>
               <div className="chatbot-info">
-                <h3>AI Assistant</h3>
+                <h3>Chat Support</h3>
                 <span className="status online">Online</span>
               </div>
               <button className="chatbot-close" onClick={toggleChatbot}>
@@ -264,7 +255,7 @@ export default function Chatbot() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                🚀
+                Send
               </motion.button>
             </form>
           </motion.div>
