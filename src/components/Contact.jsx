@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { useState } from "react";
 import Chatbot from "./Chatbot";
@@ -10,9 +9,9 @@ export default function Contact() {
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
   });
-  
+
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -39,24 +38,24 @@ export default function Contact() {
   const validateForm = () => {
     const newErrors = {};
 
-
     if (!formData.name.trim()) {
       newErrors.name = "Name is required";
     } else if (formData.name.trim().length < 2) {
       newErrors.name = "Name must be at least 2 characters";
     }
 
- 
     if (!formData.email.trim()) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "Please enter a valid email address";
     }
 
-    if (formData.phone.trim() && !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ""))) {
+    if (
+      formData.phone.trim() &&
+      !/^[\+]?[1-9][\d]{0,15}$/.test(formData.phone.replace(/[\s\-\(\)]/g, ""))
+    ) {
       newErrors.phone = "Please enter a valid phone number";
     }
-
 
     if (!formData.subject.trim()) {
       newErrors.subject = "Subject is required";
@@ -64,11 +63,9 @@ export default function Contact() {
       newErrors.subject = "Subject must be at least 3 characters";
     }
 
-
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
-    } else if (formData.message.trim().length < 10) {
-      newErrors.message = "Message must be at least 10 characters";
+    } else if (formData.message.trim()) {
     }
 
     setErrors(newErrors);
@@ -77,48 +74,43 @@ export default function Contact() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
 
-  
     if (errors[name]) {
-      setErrors(prev => ({
+      setErrors((prev) => ({
         ...prev,
-        [name]: ""
+        [name]: "",
       }));
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     if (!validateForm()) {
       return;
     }
 
     setIsSubmitting(true);
-    
-    try {
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
       console.log("Form submitted successfully:", formData);
       setSubmitSuccess(true);
-      
-     
+
       setFormData({
         name: "",
         email: "",
         phone: "",
         subject: "",
-        message: ""
+        message: "",
       });
-      
-      
+
       setTimeout(() => setSubmitSuccess(false), 5000);
-      
     } catch (error) {
       console.error("Form submission error:", error);
       setErrors({ submit: "Failed to send message. Please try again." });
@@ -199,73 +191,79 @@ export default function Contact() {
 
             <motion.div variants={itemVariants} className="contact-form">
               <h2>Send us a Message</h2>
-              
+
               {submitSuccess && (
                 <div className="success-message">
                   ✅ Message sent successfully! We'll get back to you soon.
                 </div>
               )}
-              
+
               {errors.submit && (
-                <div className="error-message">
-                  ❌ {errors.submit}
-                </div>
+                <div className="error-message">❌ {errors.submit}</div>
               )}
 
               <form onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="name">Name *</label>
-                  <input 
-                    type="text" 
-                    id="name" 
-                    name="name" 
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
                     value={formData.name}
                     onChange={handleChange}
                     className={errors.name ? "error" : ""}
-                    required 
+                    required
                   />
-                  {errors.name && <span className="field-error">{errors.name}</span>}
+                  {errors.name && (
+                    <span className="field-error">{errors.name}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="email">Email *</label>
-                  <input 
-                    type="email" 
-                    id="email" 
-                    name="email" 
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
                     value={formData.email}
                     onChange={handleChange}
                     className={errors.email ? "error" : ""}
-                    required 
+                    required
                   />
-                  {errors.email && <span className="field-error">{errors.email}</span>}
+                  {errors.email && (
+                    <span className="field-error">{errors.email}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="phone">Phone</label>
-                  <input 
-                    type="tel" 
-                    id="phone" 
-                    name="phone" 
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
                     value={formData.phone}
                     onChange={handleChange}
                     className={errors.phone ? "error" : ""}
                   />
-                  {errors.phone && <span className="field-error">{errors.phone}</span>}
+                  {errors.phone && (
+                    <span className="field-error">{errors.phone}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
                   <label htmlFor="subject">Subject *</label>
-                  <input 
-                    type="text" 
-                    id="subject" 
-                    name="subject" 
+                  <input
+                    type="text"
+                    id="subject"
+                    name="subject"
                     value={formData.subject}
                     onChange={handleChange}
                     className={errors.subject ? "error" : ""}
-                    required 
+                    required
                   />
-                  {errors.subject && <span className="field-error">{errors.subject}</span>}
+                  {errors.subject && (
+                    <span className="field-error">{errors.subject}</span>
+                  )}
                 </div>
 
                 <div className="form-group">
@@ -279,7 +277,9 @@ export default function Contact() {
                     className={errors.message ? "error" : ""}
                     required
                   ></textarea>
-                  {errors.message && <span className="field-error">{errors.message}</span>}
+                  {errors.message && (
+                    <span className="field-error">{errors.message}</span>
+                  )}
                 </div>
 
                 <motion.button
@@ -360,7 +360,7 @@ export default function Contact() {
           </div>
         </div>
       </motion.section>
-      
+
       <Chatbot />
     </div>
   );
