@@ -9,8 +9,8 @@ export default function Chatbot() {
       id: 1,
       text: "Hi! I'm your assistant. How can I help you today?",
       isBot: true,
-      timestamp: new Date()
-    }
+      timestamp: new Date(),
+    },
   ]);
   const [inputMessage, setInputMessage] = useState("");
   const [isTyping, setIsTyping] = useState(false);
@@ -20,7 +20,7 @@ export default function Chatbot() {
     "How can I help you?",
     "Tell me about your services",
     "Contact information",
-    "Pricing details"
+    "Pricing details",
   ];
 
   const scrollToBottom = () => {
@@ -31,31 +31,30 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  // AI API Integration
   const generateBotResponse = async (userMessage) => {
     try {
-      // Option 1: OpenAI-compatible API (you can replace with your preferred API)
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
-        method: 'POST',
+      const response = await fetch("[vite] connecting...", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${process.env.OPENAI_API_KEY || 'your-api-key-here'}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GEMINI_API_KEY || "[vite] connecting..."}`,
         },
         body: JSON.stringify({
-          model: 'gpt-3.5-turbo',
+          model: "gemini-2.0-flash:generateContent",
           messages: [
             {
-              role: 'system',
-              content: 'You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words.'
+              role: "system",
+              content:
+                "You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words.",
             },
             {
-              role: 'user',
-              content: userMessage
-            }
+              role: "user",
+              content: userMessage,
+            },
           ],
           max_tokens: 150,
-          temperature: 0.7
-        })
+          temperature: 0.7,
+        }),
       });
 
       if (!response.ok) {
@@ -64,19 +63,20 @@ export default function Chatbot() {
 
       const data = await response.json();
       return data.choices[0].message.content;
-
     } catch (error) {
-      console.error('API Error:', error);
-      
+      console.error("API Error:", error);
+
       // Fallback to local responses if API fails
       const fallbackResponses = [
         "I apologize, but I'm having trouble connecting to my knowledge base right now. Could you try asking your question again?",
         "I'm experiencing some technical difficulties. In the meantime, you can reach out to our support team directly.",
         "Sorry, I'm having connectivity issues. Please try your question again or contact our support team for immediate assistance.",
-        "I'm unable to process your request at the moment. Our team is here to help - please don't hesitate to reach out directly."
+        "I'm unable to process your request at the moment. Our team is here to help - please don't hesitate to reach out directly.",
       ];
-      
-      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+
+      return fallbackResponses[
+        Math.floor(Math.random() * fallbackResponses.length)
+      ];
     }
   };
 
@@ -88,10 +88,10 @@ export default function Chatbot() {
       id: Date.now(),
       text: inputMessage,
       isBot: false,
-      timestamp: new Date()
+      timestamp: new Date(),
     };
 
-    setMessages(prev => [...prev, userMessage]);
+    setMessages((prev) => [...prev, userMessage]);
     const currentInput = inputMessage;
     setInputMessage("");
     setIsTyping(true);
@@ -99,26 +99,26 @@ export default function Chatbot() {
     try {
       // Generate response using AI API
       const botResponseText = await generateBotResponse(currentInput);
-      
+
       const botMessage = {
         id: Date.now() + 1,
         text: botResponseText,
         isBot: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, botMessage]);
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error('Error generating response:', error);
-      
+      console.error("Error generating response:", error);
+
       const errorMessage = {
         id: Date.now() + 1,
         text: "I apologize, but I'm having trouble responding right now. Please try again or contact our support team.",
         isBot: true,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
       setIsTyping(false);
     }
@@ -134,32 +134,32 @@ export default function Chatbot() {
 
   const containerVariants = {
     hidden: { opacity: 0, scale: 0.8, y: 20 },
-    visible: { 
-      opacity: 1, 
-      scale: 1, 
+    visible: {
+      opacity: 1,
+      scale: 1,
       y: 0,
-      transition: { 
+      transition: {
         duration: 0.3,
-        ease: "easeOut"
-      }
+        ease: "easeOut",
+      },
     },
-    exit: { 
-      opacity: 0, 
-      scale: 0.8, 
+    exit: {
+      opacity: 0,
+      scale: 0.8,
       y: 20,
-      transition: { 
-        duration: 0.2
-      }
-    }
+      transition: {
+        duration: 0.2,
+      },
+    },
   };
 
   const messageVariants = {
     hidden: { opacity: 0, y: 10 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { duration: 0.3 }
-    }
+      transition: { duration: 0.3 },
+    },
   };
 
   return (
@@ -191,10 +191,7 @@ export default function Chatbot() {
                 <h3>Assistant</h3>
                 <span className="status online">● Online</span>
               </div>
-              <button 
-                className="chatbot-close"
-                onClick={toggleChatbot}
-              >
+              <button className="chatbot-close" onClick={toggleChatbot}>
                 ✕
               </button>
             </div>
@@ -203,7 +200,7 @@ export default function Chatbot() {
               {messages.map((message) => (
                 <motion.div
                   key={message.id}
-                  className={`message ${message.isBot ? 'bot' : 'user'}`}
+                  className={`message ${message.isBot ? "bot" : "user"}`}
                   variants={messageVariants}
                   initial="hidden"
                   animate="visible"
@@ -211,9 +208,9 @@ export default function Chatbot() {
                   <div className="message-content">
                     <p>{message.text}</p>
                     <span className="message-time">
-                      {message.timestamp.toLocaleTimeString([], { 
-                        hour: '2-digit', 
-                        minute: '2-digit' 
+                      {message.timestamp.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit",
                       })}
                     </span>
                   </div>
