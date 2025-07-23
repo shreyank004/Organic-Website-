@@ -40,7 +40,7 @@ export default function Home() {
             <button className="btn btn-primary">Get Started</button>
             <button className="btn btn-secondary">Learn More</button>
           </div>
-        </div>
+        </motion.div>
 
       </section>
       <Chatbot />
