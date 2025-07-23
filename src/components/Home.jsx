@@ -1,21 +1,40 @@
+import { motion } from "framer-motion";
 import "./Home.css";
 import Chatbot from "./Chatbot";
-import { FadeIn, SlideIn, ScaleIn } from 'react-bits';
+
 export default function Home() {
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
     <div className="home-page">
       <section className="hero">
-        <div className="hero-content">
-          <h1>Welcome to My App</h1>
-          <FadeIn>
-            <div>This will fade in</div>
-          </FadeIn>
-          <SlideIn direction="left">
-            <div>This will slide in from the left</div>
-          </SlideIn>
-          <ScaleIn>
-            <div>This will scale in</div>
-          </ScaleIn>
+        <motion.div 
+          className="hero-content"
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+        >
+          <motion.h1 variants={itemVariants}>Welcome to My App</motion.h1>
+          <motion.div variants={itemVariants}>
+            <div>Build amazing things with modern web technologies</div>
+          </motion.div>
           <p className="hero-subtitle">Build amazing things with React and modern web technologies</p>
           <div className="hero-buttons">
             <button className="btn btn-primary">Get Started</button>
