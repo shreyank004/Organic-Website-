@@ -17,10 +17,10 @@ export default function Chatbot() {
   const messagesEndRef = useRef(null);
 
   const quickActions = [
-    "How can I help you?",
-    "Tell me about your services",
-    "Contact information",
-    "Pricing details",
+    "👋 Hello",
+    "🚀 Services",
+    "📞 Contact",
+    "💰 Pricing",
   ];
 
   const scrollToBottom = () => {
@@ -33,7 +33,7 @@ export default function Chatbot() {
 
   const generateBotResponse = async (userMessage) => {
     try {
-      const response = await fetch("", {
+      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -187,8 +187,8 @@ export default function Chatbot() {
             <div className="chatbot-header">
               <div className="chatbot-avatar">🤖</div>
               <div className="chatbot-info">
-                <h3>Assistant</h3>
-                <span className="status online">● Online</span>
+                <h3>AI Assistant</h3>
+                <span className="status online">Online</span>
               </div>
               <button className="chatbot-close" onClick={toggleChatbot}>
                 ✕
@@ -264,7 +264,7 @@ export default function Chatbot() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                📤
+                🚀
               </motion.button>
             </form>
           </motion.div>
