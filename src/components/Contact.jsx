@@ -102,20 +102,19 @@ export default function Contact() {
       const zapierWebhookUrl = 'https://hooks.zapier.com/hooks/catch/2299769/uutar0l/';
       console.log("Zapier Webhook URL:", zapierWebhookUrl);
       if (zapierWebhookUrl) {
+        // Use FormData to avoid CORS issues with Content-Type header
+        const formDataToSend = new FormData();
+        formDataToSend.append('name', formData.name);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('phone', formData.phone || '');
+        formDataToSend.append('subject', formData.subject);
+        formDataToSend.append('message', formData.message);
+        formDataToSend.append('timestamp', new Date().toISOString());
+        formDataToSend.append('source', 'Contact Form');
+
         const response = await fetch(zapierWebhookUrl, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            phone: formData.phone || "",
-            subject: formData.subject,
-            message: formData.message,
-            timestamp: new Date().toISOString(),
-            source: "Contact Form",
-          }),
+          body: formDataToSend,
         });
 
         if (!response.ok) {
