@@ -100,7 +100,7 @@ export default function Contact() {
     try {
       // Send data to Zapier webhook
       const zapierWebhookUrl = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
-      
+
       if (zapierWebhookUrl) {
         const response = await fetch(zapierWebhookUrl, {
           method: 'POST',
