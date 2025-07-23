@@ -33,7 +33,7 @@ export default function Chatbot() {
 
   const generateBotResponse = async (userMessage) => {
     try {
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent", {
+      const response = await fetch("", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -44,15 +44,15 @@ export default function Chatbot() {
             {
               parts: [
                 {
-                  text: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User message: ${userMessage}`
-                }
-              ]
-            }
+                  text: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User message: ${userMessage}`,
+                },
+              ],
+            },
           ],
           generationConfig: {
             temperature: 0.7,
-            maxOutputTokens: 150
-          }
+            maxOutputTokens: 150,
+          },
         }),
       });
 
