@@ -65,7 +65,8 @@ export default function Contact() {
 
     if (!formData.message.trim()) {
       newErrors.message = "Message is required";
-    } else if (formData.message.trim()) {
+    } else if (formData.message.trim().length < 10) {
+      newErrors.message = "Message must be at least 10 characters";
     }
 
     setErrors(newErrors);
@@ -97,7 +98,34 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Send data to Zapier webhook
+      const zapierWebhookUrl = import.meta.env.VITE_ZAPIER_WEBHOOK_URL;
+      
+      if (zapierWebhookUrl) {
+        const response = await fetch(zapierWebhookUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || '',
+            subject: formData.subject,
+            message: formData.message,
+            timestamp: new Date().toISOString(),
+            source: 'Contact Form'
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`Zapier webhook failed: ${response.status}`);
+        }
+
+        console.log("Data successfully sent to Zapier");
+      } else {
+        console.warn("No Zapier webhook URL configured");
+      }
 
       console.log("Form submitted successfully:", formData);
       setSubmitSuccess(true);
