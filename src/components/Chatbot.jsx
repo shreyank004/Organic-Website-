@@ -33,27 +33,26 @@ export default function Chatbot() {
 
   const generateBotResponse = async (userMessage) => {
     try {
-      const response = await fetch("[vite] connecting...", {
+      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GEMINI_API_KEY || "[vite] connecting..."}`,
+          Authorization: `Bearer ${process.env.GEMINI_API_KEY || ""}`,
         },
         body: JSON.stringify({
-          model: "gemini-2.0-flash:generateContent",
-          messages: [
+          contents: [
             {
-              role: "system",
-              content:
-                "You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words.",
-            },
-            {
-              role: "user",
-              content: userMessage,
-            },
+              parts: [
+                {
+                  text: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User message: ${userMessage}`
+                }
+              ]
+            }
           ],
-          max_tokens: 150,
-          temperature: 0.7,
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 150
+          }
         }),
       });
 
@@ -62,7 +61,7 @@ export default function Chatbot() {
       }
 
       const data = await response.json();
-      return data.choices[0].message.content;
+      return data.candidates[0].content.parts[0].text;
     } catch (error) {
       console.error("API Error:", error);
 
