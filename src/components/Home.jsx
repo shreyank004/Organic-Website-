@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import "./Home.css";
 import Chatbot from "./Chatbot";
+import ImageSlider from "./ImageSlider";
+import WhyChooseUs from "./WhyChooseUs";
 
 export default function Home() {
   const containerVariants = {
@@ -31,37 +33,85 @@ export default function Home() {
           animate="visible"
           variants={containerVariants}
         >
-          <motion.h1 variants={itemVariants}>Welcome to My App</motion.h1>
-          <motion.div variants={itemVariants}>
-            <div>Build amazing things with modern web technologies</div>
-          </motion.div>
-          <p className="hero-subtitle">Build amazing things with React and modern web technologies</p>
-          <div className="hero-buttons">
-            <button className="btn btn-primary">Get Started</button>
-            <button className="btn btn-secondary">Learn More</button>
+          <div className="hero-left">
+            <motion.div variants={itemVariants}>
+              <ImageSlider 
+                slides={[
+                  {
+                    title: "Healthy Food",
+                    subtitle: "It's not a diet. It's called eating healthy",
+                    description: "Discover amazing recipes and nutrition tips that will transform your lifestyle. Our platform provides everything you need to maintain a balanced and healthy diet.",
+                    primaryBtn: "Sign Up",
+                    secondaryBtn: "Login",
+                    emoji: "🥗"
+                  },
+                  {
+                    title: "Fresh Ingredients",
+                    subtitle: "Quality ingredients for quality life",
+                    description: "We source the finest organic ingredients from local farmers. Every product is carefully selected to ensure maximum nutrition and taste.",
+                    primaryBtn: "Shop Now",
+                    secondaryBtn: "Learn More",
+                    emoji: "🥬"
+                  },
+                  {
+                    title: "Smart Nutrition",
+                    subtitle: "Science-based nutrition guidance",
+                    description: "Get personalized nutrition plans based on your goals and lifestyle. Our experts help you make informed decisions about your health.",
+                    primaryBtn: "Get Started",
+                    secondaryBtn: "Free Trial",
+                    emoji: "🍎"
+                  },
+                  {
+                    title: "Community Support",
+                    subtitle: "Join our healthy living community",
+                    description: "Connect with like-minded people who share your passion for healthy living. Share recipes, tips, and motivate each other.",
+                    primaryBtn: "Join Community",
+                    secondaryBtn: "Explore",
+                    emoji: "🤝"
+                  }
+                ]}
+                interval={6000}
+              />
+            </motion.div>
           </div>
+          
         </motion.div>
 
       </section>
       <Chatbot />
-      <section className="features">
+     
+      <section className="promotional-banners">
         <div className="container">
-          <h2>Features</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">⚡</div>
-              <h3>Fast Performance</h3>
-              <p>Built with Vite for lightning-fast development and optimized production builds.</p>
+          <div className="banners-grid">
+            <div className="promo-banner vegetable-banner">
+              <div className="banner-content">
+                <h3>Get 10% off on Vegetables</h3>
+                <p>Shop our selection of organic fresh vegetables in a discounted price. 10% off on all vegetables.</p>
+                <button className="shop-now-btn vegetable-btn">Shop now</button>
+              </div>
+              <div className="banner-image">
+                <img src="/src/image/broccoli.svg" alt="Fresh vegetables" />
+              </div>
+              <div className="banner-logo">
+                <span>FARM FOOD MARKET</span>
+                <span>PRODUCT</span>
+                <span>ESTD 1998</span>
+              </div>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🎨</div>
-              <h3>Modern Design</h3>
-              <p>Clean, responsive design that works perfectly on all devices and screen sizes.</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🔧</div>
-              <h3>Easy to Use</h3>
-              <p>Simple and intuitive interface with powerful features under the hood.</p>
+            
+            <div className="promo-banner fruit-banner">
+              <div className="banner-content">
+                <h3>Get garden fresh fruits</h3>
+                <p>Shop our selection of organic fresh fruits in a discounted price. 10% off on all fruits.</p>
+                <button className="shop-now-btn fruit-btn">Shop now</button>
+              </div>
+              <div className="banner-image">
+                <img src="/src/image/blueberries.svg" alt="Fresh fruits" />
+              </div>
+              <div className="banner-logo">
+                <span>Farm Fresh</span>
+                <span>PRODUCT</span>
+              </div>
             </div>
           </div>
         </div>
@@ -69,12 +119,33 @@ export default function Home() {
 
       <section className="cta">
         <div className="container">
-          <h2>Ready to get started?</h2>
-          <p>Join thousands of developers building amazing applications.</p>
-          <button className="btn btn-primary">Start Building</button>
+          <div className="cta-content">
+            <div className="cta-text">
+              <h3 className="cta-subtitle">~ About us ~</h3>
+              <h2 className="cta-title">We believe in working with accredited farmers</h2>
+              <p className="cta-description">
+                Organic Foods and Café is a family run company founded in 2004 that runs organic supermarkets
+              </p>
+              <p className="cta-description">
+                Organic means growing our food, which is to nourish us, without chemical aids during the growing process such as fertilisers, pesticides, fungcides, herbacides, larbicides etc
+              </p>
+            </div>
+            <div className="cta-features">
+              <div className="feature-item">
+                <div className="feature-icon">🌱</div>
+                <h4>Why Organic?</h4>
+                <p>We're making room for self care today with plan.</p>
+              </div>
+              <div className="feature-item">
+                <div className="feature-icon">🍃</div>
+                <h4>Speciality Produce</h4>
+                <p>We're making room for self care today with plan.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-
+      <WhyChooseUs />
     </div>
     
   );

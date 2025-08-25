@@ -1,0 +1,89 @@
+ const generateBotResponse = async (userMessage) => {
+    try {
+      const response = await fetch("GEMINI_API_KEY", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.GEMINI_API_KEY || ""}`,
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User message: ${userMessage}`,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            maxOutputTokens: 150,
+          },
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`API error: ${response.status}`);
+      }
+
+      const data = await response.json();
+      return data.candidates[0].content.parts[0].text;
+    } catch (error) {
+      console.error("API Error:", error);
+
+      const fallbackResponses = [
+        "Thanks for your message! I'm here to help you.",
+        "I'd be happy to assist you with your inquiry.",
+        "Let me help you with that. What specific information do you need?",
+        "I'm here to support you. How can I make your experience better?",
+      ];
+
+      return fallbackResponses[
+        Math.floor(Math.random() * fallbackResponses.length)
+      ];
+    }
+  };
+
+  const handleSendMessage = async (e) => {
+    e.preventDefault();
+    if (!inputMessage.trim()) return;
+
+    const userMessage = {
+      id: Date.now(),
+      text: inputMessage,
+      isBot: false,
+      timestamp: new Date(),
+    };
+
+    setMessages((prev) => [...prev, userMessage]);
+    const currentInput = inputMessage;
+    setInputMessage("");
+    setIsTyping(true);
+
+    try {
+      const botResponseText = await generateBotResponse(currentInput);
+
+      const botMessage = {
+        id: Date.now() + 1,
+        text: botResponseText,
+        isBot: true,
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, botMessage]);
+    } catch (error) {
+      console.error("Error generating response:", error);
+
+      const errorMessage = {
+        id: Date.now() + 1,
+        text: "I'm having trouble responding right now. Please try again or contact our support team.",
+        isBot: true,
+        timestamp: new Date(),
+      };
+
+      setMessages((prev) => [...prev, errorMessage]);
+    } finally {
+      setIsTyping(false);
+    }
+  };

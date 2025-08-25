@@ -1,0 +1,275 @@
+.why-choose-us {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.why-choose-us .container {
+  max-width: 1200px;
+}
+
+.why-choose-us .bg-green-100 {
+  background-color: #dcfce7;
+}
+
+.why-choose-us .bg-orange-500 {
+  background-color: #f97316;
+}
+
+.why-choose-us .text-green-600 {
+  color: #16a34a;
+}
+
+.why-choose-us .text-gray-800 {
+  color: #1f2937;
+}
+
+.why-choose-us .text-gray-700 {
+  color: #374151;
+}
+
+.why-choose-us .text-gray-600 {
+  color: #4b5563;
+}
+
+.why-choose-us .shadow-lg {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.why-choose-us .shadow-xl {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.why-choose-us .hover\:shadow-xl:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.why-choose-us .transition-shadow {
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.why-choose-us .duration-300 {
+  transition-duration: 300ms;
+}
+
+.why-choose-us .ease-in-out {
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.why-choose-us .transform {
+  transform: translateZ(0);
+}
+
+.why-choose-us .rotate-3 {
+  transform: rotate(3deg);
+}
+
+.why-choose-us .scale-105 {
+  transform: scale(1.05);
+}
+
+.why-choose-us .opacity-20 {
+  opacity: 0.2;
+}
+
+.why-choose-us .relative {
+  position: relative;
+}
+
+.why-choose-us .absolute {
+  position: absolute;
+}
+
+.why-choose-us .inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.why-choose-us .z-10 {
+  z-index: 10;
+}
+
+.why-choose-us .grid {
+  display: grid;
+}
+
+.why-choose-us .grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.why-choose-us .lg\:grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.why-choose-us .gap-6 {
+  gap: 1.5rem;
+}
+
+.why-choose-us .gap-12 {
+  gap: 3rem;
+}
+
+.why-choose-us .items-center {
+  align-items: center;
+}
+
+.why-choose-us .space-y-4 > * + * {
+  margin-top: 1rem;
+}
+
+.why-choose-us .space-y-6 > * + * {
+  margin-top: 1.5rem;
+}
+
+.why-choose-us .p-6 {
+  padding: 1.5rem;
+}
+
+.why-choose-us .px-4 {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.why-choose-us .py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+.why-choose-us .mb-2 {
+  margin-bottom: 0.5rem;
+}
+
+.why-choose-us .mb-4 {
+  margin-bottom: 1rem;
+}
+
+.why-choose-us .mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.why-choose-us .w-12 {
+  width: 3rem;
+}
+
+.why-choose-us .h-12 {
+  height: 3rem;
+}
+
+.why-choose-us .text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
+.why-choose-us .text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
+
+.why-choose-us .text-4xl {
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+}
+
+.why-choose-us .lg\:text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.why-choose-us .text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
+.why-choose-us .font-bold {
+  font-weight: 700;
+}
+
+.why-choose-us .font-medium {
+  font-weight: 500;
+}
+
+.why-choose-us .text-center {
+  text-align: center;
+}
+
+.why-choose-us .leading-tight {
+  line-height: 1.25;
+}
+
+.why-choose-us .leading-relaxed {
+  line-height: 1.625;
+}
+
+.why-choose-us .rounded-xl {
+  border-radius: 0.75rem;
+}
+
+.why-choose-us .rounded-3xl {
+  border-radius: 1.5rem;
+}
+
+.why-choose-us .rounded-full {
+  border-radius: 9999px;
+}
+
+.why-choose-us .bg-white {
+  background-color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .why-choose-us .lg\:grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-choose-us .gap-12 {
+    gap: 2rem;
+  }
+  
+  .why-choose-us .py-16 {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .why-choose-us .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  .why-choose-us .gap-6 {
+    gap: 1rem;
+  }
+  
+  .why-choose-us .p-6 {
+    padding: 1rem;
+  }
+  
+  .why-choose-us .text-4xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
+  
+  .why-choose-us .py-16 {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .why-choose-us .px-4 {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+  }
+  
+  .why-choose-us .text-lg {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}

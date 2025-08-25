@@ -98,19 +98,18 @@ export default function Contact() {
     setIsSubmitting(true);
 
     try {
-      // Send data to Zapier webhook
-      const zapierWebhookUrl = 'https://hooks.zapier.com/hooks/catch/2299769/uutar0l/';
+      const zapierWebhookUrl =
+        "https://hooks.zapier.com/hooks/catch/2299769/uutar0l/";
       console.log("Zapier Webhook URL:", zapierWebhookUrl);
       if (zapierWebhookUrl) {
-        // Use FormData to avoid CORS issues with Content-Type header
         const formDataToSend = new FormData();
-        formDataToSend.append('name', formData.name);
-        formDataToSend.append('email', formData.email);
-        formDataToSend.append('phone', formData.phone || '');
-        formDataToSend.append('subject', formData.subject);
-        formDataToSend.append('message', formData.message);
-        formDataToSend.append('timestamp', new Date().toISOString());
-        formDataToSend.append('source', 'Contact Form');
+        formDataToSend.append("name", formData.name);
+        formDataToSend.append("email", formData.email);
+        formDataToSend.append("phone", formData.phone || "");
+        formDataToSend.append("subject", formData.subject);
+        formDataToSend.append("message", formData.message);
+        formDataToSend.append("timestamp", new Date().toISOString());
+        formDataToSend.append("source", "Contact Form");
 
         const response = await fetch(zapierWebhookUrl, {
           method: "POST",

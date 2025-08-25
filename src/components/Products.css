@@ -1,0 +1,18 @@
+#prod{
+        display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 20px;
+    max-width: 1400px;
+    margin: auto;
+    padding: 40px;
+}
+.Banner{
+    width: 100%;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+}
+h1.pop {
+    margin: 0;
+}

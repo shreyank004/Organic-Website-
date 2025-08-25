@@ -26,50 +26,97 @@ export default function Chatbot() {
     scrollToBottom();
   }, [messages]);
 
-  const generateBotResponse = async (userMessage) => {
-    try {
-      const response = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent", {
+
+
+const generateBotResponse = async (userMessage) => {
+  try {
+
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/facebook/blenderbot-400M-distill",
+      {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.GEMINI_API_KEY || ""}`,
         },
         body: JSON.stringify({
-          contents: [
-            {
-              parts: [
-                {
-                  text: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User message: ${userMessage}`,
-                },
-              ],
-            },
-          ],
-          generationConfig: {
-            temperature: 0.7,
-            maxOutputTokens: 150,
+          inputs: `You are a helpful customer service assistant. Be friendly, concise, and helpful. Keep responses under 100 words. User: ${userMessage}`,
+          parameters: {
+            max_length: 150,
+            temperature: 0.8,
+            do_sample: true,
+            top_p: 0.9,
           },
         }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`API error: ${response.status}`);
       }
+    );
 
-      const data = await response.json();
-      return data.candidates[0].content.parts[0].text;
-    } catch (error) {
-      console.error("API Error:", error);
-
-      const fallbackResponses = [
-        "Thanks for your message! I'm here to help you.",
-        "I'd be happy to assist you with your inquiry.",
-        "Let me help you with that. What specific information do you need?",
-        "I'm here to support you. How can I make your experience better?",
-      ];
-
-      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
     }
-  };
+
+    const data = await response.json();
+    
+
+    if (data && data[0] && data[0].generated_text) {
+      let responseText = data[0].generated_text;
+      
+
+      const promptIndex = responseText.indexOf("User: " + userMessage);
+      if (promptIndex !== -1) {
+        responseText = responseText.substring(promptIndex + userMessage.length + 6).trim();
+      }
+      
+
+      responseText = responseText.replace(/You are a helpful customer service assistant.*?User:.*?/g, '').trim();
+      
+      if (responseText.length > 5) {
+        return responseText;
+      }
+    }
+    
+    const altResponse = await fetch(
+      "https://api-inference.huggingface.co/models/microsoft/DialoGPT-small",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          inputs: userMessage,
+          parameters: {
+            max_length: 100,
+            temperature: 0.7,
+          },
+        }),
+      }
+    );
+
+    if (altResponse.ok) {
+      const altData = await altResponse.json();
+      if (altData && altData[0] && altData[0].generated_text) {
+        return altData[0].generated_text.trim();
+      }
+    }
+    
+    throw new Error("No valid response from APIs");
+    
+  } catch (error) {
+    console.error("API Error:", error);
+    
+    const fallbackResponses = [
+      "I'm having trouble connecting to my AI service right now. Please try again in a moment.",
+      "There seems to be a temporary issue with my response system. Could you try asking again?",
+      "I'm experiencing a connection issue. Please wait a moment and try your question again.",
+    ];
+
+    return fallbackResponses[
+      Math.floor(Math.random() * fallbackResponses.length)
+      
+    ];
+  }
+};
+
+
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
@@ -142,6 +189,7 @@ export default function Chatbot() {
       },
     },
   };
+  
 
   const messageVariants = {
     hidden: { opacity: 0, y: 10 },
@@ -154,7 +202,7 @@ export default function Chatbot() {
 
   return (
     <>
-      {/* Chatbot Toggle Button */}
+
       <motion.button
         className="chatbot-toggle"
         onClick={toggleChatbot}
@@ -165,7 +213,7 @@ export default function Chatbot() {
         {isOpen ? "✕" : "💬"}
       </motion.button>
 
-      {/* Chatbot Window */}
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
